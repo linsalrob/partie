@@ -19,4 +19,9 @@ We have released two files:
  * [SRA_Partie_Data.tsv](SRA_Partie_Data.tsv) is a tab separated file with the Partie data described above in case you want to generate your own classification
 
 
+The current version of this data release contains 226,648 SRA data sets:
+ * 45,867 WGS sequences
+ * 173,452 AMPLICON sequences
+ * 7,329 OTHER sequences
+
 
