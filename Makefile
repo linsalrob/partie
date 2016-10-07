@@ -29,4 +29,8 @@ sra-tools:
 	cd tools/ncbi-vdb-2.7.0 && ./configure --prefix=$(PWD) --build-prefix=$(PWD) --with-ngs-sdk-prefix=$(PWD) && $(MAKE) install
 	cd tools && tar xvfz sra-tools-2.7.0.tar.gz
 	cd tools/sra-tools-2.7.0 && ./configure --prefix=$(PWD) --with-ngs-sdk-prefix=$(PWD) --with-ncbi-vdb-sources=$(PWD)/tools/ncbi-vdb-2.7.0 --with-ncbi-vdb-build=$(PWD)/ncbi-vdb && $(MAKE) install
-	
+seqtk:
+	cd tools && tar xvfz seqtk-1.2.95.tar.gz
+	cd tools/seqtk-1.2.95 && $(MAKE)
+	cp tools/seqtk-1.2.95/seqtk $(PWD)/bin 
+		
