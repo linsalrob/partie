@@ -50,10 +50,9 @@ if($count != 18){
 	print "You will need to type 'make'\n";
 	exit();
 }
-exit;
 #---------------------------------------------
 #---------------------------------------------
-#---define nuber of reads used
+#---define number of reads used
 my $num_reads = 10000;
 #---define kmer length
 my $kmer_length = 15;
