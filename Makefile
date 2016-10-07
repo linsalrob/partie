@@ -1,16 +1,13 @@
 export PATH := $(PATH):$(PWD)/bin
 
-all: databases bowtie jellyfish sra-tools
-
-none:
-	printenv
-
 databases:
+	curl -LO http://edwards.sdsu.edu/~katelyn/db.tar.gz
 	tar xvfz db.tar.gz
 	bowtie2-build db/16SMicrobial.fna db/16SMicrobial
 	bowtie2-build db/phages.fna db/phages
 	bowtie2-build db/prokaryotes.fna db/prokaryotes
 
+all: databases bowtie jellyfish sra-tools
 
 tools: bowtie jellyfish sra-tools
 
