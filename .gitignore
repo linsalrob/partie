@@ -87,3 +87,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# backup files that we don't need because we have versioning!
+.bak
