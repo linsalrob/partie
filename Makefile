@@ -7,7 +7,7 @@ databases:
 	bowtie2-build db/phages.fna db/phages
 	bowtie2-build db/prokaryotes.fna db/prokaryotes
 
-all: databases bowtie jellyfish sra-tools
+all: bowtie jellyfish sra-tools databases
 
 tools: bowtie jellyfish sra-tools
 

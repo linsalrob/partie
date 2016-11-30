@@ -45,7 +45,7 @@ while (my $de = readdir($dh)) {
 	$count++;
 }
 closedir($dh);
-if($count != 18){
+if($count < 18){
 	print "Databases not found!\n";
 	print "You will need to type 'make'\n";
 	exit();
@@ -77,41 +77,58 @@ my ($filename, $path, $suffix) = fileparse($ARGV[0], @suffixes);
 #--- INFILE HANDLING
 #---------------------------------------------
 if($suffix =~ m/\.sra/){
-	my $out = `./bin/fastq-dump --split-spot --clip --skip-technical --readids --maxSpotId $num_reads  --stdout $ARGV[0] 2>&1 1> $filename.$num_reads.fna`;
+	my $out = `fastq-dump --fasta --split-spot --clip --skip-technical --readids --maxSpotId $num_reads  --stdout $ARGV[0] 2>&1 1> $filename.$num_reads.fna`;
 	if($out =~ m/An error occurred/){
-		my $out = `./bin/fastq-dump --split-spot --readids --maxSpotId 10000  --stdout $ARGV[0] 2>&1 1> $filename.$num_reads.fna`;
+		my $out = `fastq-dump --fasta --split-spot --readids --maxSpotId 10000  --stdout $ARGV[0] 2>&1 1> $filename.$num_reads.fna`;
 	}
 }elsif($suffix =~ m/\.[fq|fastq|fasta|fa|fna]/){
 	#system("./bin/seqtk seq -A $filename.fastx > $filename.$num_reads.fna");
-	print "fasta\n";
+	print "Error: fasta file\n";
+	exit;
 }else{
 	print "Error: unrecognized infile type\n";
 }
+#---------------------------------------------
+#---------------------------------------------
+#--CHECK DATABASES
+my $out = `bowtie2-inspect -s db/16SMicrobial 2>&1 1> /dev/null`;
+if($out){
+	print "Error: 16S database corrupted\n";
+	exit();
+}
+my $out = `bowtie2-inspect -s db/phages 2>&1 1> /dev/null`;
+if($out){
+	print "Error: phages database corrupted\n";
+	exit();
+}
+my $out = `bowtie2-inspect -s db/prokaryotes 2>&1 1> /dev/null`;
+if($out){
+	print "Error: prokaryotes database corrupted\n";
+	exit();
+}
 
-#---------------------------------------------
-#---------------------------------------------
 #--COUNT HITS TO 16S
 my $percent_16S = 0;
-my $out = `./bin/bowtie2-2.2.4/bowtie2 -f -k 1 -x db/16S/16SMicrobial $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
+my $out = `bowtie2 -f -k 1 -x db/16SMicrobial $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_16S = 100-$1;
 }
 #---COUNT HITS TO PHAGES
 my $percent_phage = 0;
-my $out = `./bin/bowtie2-2.2.4/bowtie2 -f -k 1 -x db/phages/phages $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
+my $out = `bowtie2 -f -k 1 -x db/phages $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_phage = 100-$1;
 }
 #---COUNT HITS TO PROKARYOTES
 my $percent_prokaryote = 0;
-my $out = `./bin/bowtie2-2.2.4/bowtie2 -f -k 1 -x db/prokaryotes/prokaryotes $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
+my $out = `bowtie2 -f -k 1 -x db/prokaryotes $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_prokaryote = 100-$1;
 }
 #---COUNT UNIQUE KMERS
-system("./bin/jellyfish count -m $kmer_length -s 100M -o $filename.$num_reads.jf $filename.$num_reads.fna");
+system("jellyfish count -m $kmer_length -s 100M -o $filename.$num_reads.jf $filename.$num_reads.fna");
 unlink("$filename.$num_reads.fna");
-system("./bin/jellyfish dump -c $filename.$num_reads.jf > $filename.$num_reads.txt");
+system("jellyfish dump -c $filename.$num_reads.jf > $filename.$num_reads.txt");
 unlink("$filename.$num_reads.jf");
 my $total = 0;
 my $count = 0;
@@ -130,7 +147,7 @@ unlink("$filename.$num_reads.txt");
 #---OUPUT
 print "percent unique kmer\t";
 if($total){
-	print ($count/$total);
+	print (($count/$total)*100);
 }else{
 	print "0";
 }
