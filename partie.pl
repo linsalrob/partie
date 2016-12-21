@@ -146,16 +146,20 @@ unlink("$filename.$num_reads.txt");
 
 #---OUPUT
 print "percent unique kmer\t";
+print "\tpercent 16S\t";
+print "\tpercent PHAGE\t";
+print "\tpercent PROKARYOTE\t";
+print "\n";
 if($total){
 	print (($count/$total)*100);
 }else{
-	print "0";
+      	print "0";
 }
-print "\tpercent 16S\t";
+print "\t";
 print $percent_16S;
-print "\tpercent PHAGE\t";
+print "\t";
 print $percent_phage;
-print "\tpercent PROKARYOTE\t";
+print "\t";
 print $percent_prokaryote;
 print "\n";
 
