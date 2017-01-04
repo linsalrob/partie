@@ -1,5 +1,7 @@
 How to use PARTIE randomForest classification:
 
-PARTIE output should be in txt format. The PARTIE_Classification.R script will call the robust training set (SRA_used_for_training.csv) that will be used to build an automatic classification. Below is the script you can use to classify SRA data after going through the initial PARTIE algorithm.
+PARTIE output should be in txt format. The PARTIE_Classification.R script will call the robust training set (SRA_used_for_training.csv)
+that will be used to build an automatic classification. Below is the script you can use to classify SRA data after going through the 
+initial PARTIE algorithm.
 
 Rscript PARTIE_Classification.R Example_partie_output_SRR3939281.txt
