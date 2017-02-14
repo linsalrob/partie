@@ -7,7 +7,7 @@ Running this script:
 
                    Rscript PARTIE_Training.R 
 
-should output 'final_model.rds' in the folder you ran this script in. Once you have this file in your fodler you do not have to run this script anymore.
+should output 'final_model.rds' in the folder you ran this script in. Once you have this file in your folder you do not have to run this script anymore.
 
 Next, we will want to classify the data. Below is the script you can use to classify SRA data after going through the 
 initial PARTIE algorithm:
