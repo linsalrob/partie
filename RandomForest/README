@@ -3,7 +3,7 @@ How to use PARTIE randomForest classification:
 PARTIE output should be in txt format. 
 
 First you will build and save a random forest training model. The PARTIE_Training.R script will call the robust training set (SRA_used_for_training.csv) that will be used to build the training model. 
-Running this script:
+Run this script:
 
                    Rscript PARTIE_Training.R 
 
