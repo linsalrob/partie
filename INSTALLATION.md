@@ -1,5 +1,7 @@
 # Installing PARTIE
 
+## Dependencies
+
 PARTIE requires several tools to run and a database.
 
 You will need to have the following installed:
@@ -10,6 +12,8 @@ You will need to have the following installed:
 - the NCBI SRA Toolkit. You should [download the prebuilt binaries](https://github.com/ncbi/sra-tools/wiki/Downloads)
 
 Follow the installation instructions for each of those libraries.
+
+## Databases
 
 You will also need the databases that we have built. 
 
@@ -27,4 +31,6 @@ bowtie2-build db/phages.fna db/phages
 bowtie2-build db/prokaryotes.fna db/prokaryotes
 ```
 
+## Using PARTIE
 
+Once you have installed all the dependencies you should be able to run the test code
