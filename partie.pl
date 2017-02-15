@@ -12,31 +12,41 @@ local $ENV{PATH} = "$ENV{PATH}:$dir/bin";
 
 $out = `which bowtie2`;
 if($out_jellyfish =~ m/no bowtie2 in/){
-	print "The executable for Bowtie2 not found on the path!\n";
-	print "Either download and install your own version, or use the provided tools by typing:\n";
-	print '    make tools';
-	print "\n";
+	print STDERR "The executable for Bowtie2 not found on the path!\n";
+	print STDERR "Either download and install your own version, or use the provided tools by typing:\n";
+	print STDERR '    make tools';
+	print STDERR "\n";
 	exit();
 }
 
 $out = `which jellyfish`;
 if($out =~ m/no jellyfish in/){
-	print "The executable for Jellyfish not found on the path!\n";
-	print "Either download and install your own version, or use the provided tools by typing:\n";
-	print '    make tools';
-	print "\n";
+	print STDERR "The executable for Jellyfish not found on the path!\n";
+	print STDERR "Either download and install your own version, or use the provided tools by typing:\n";
+	print STDERR '    make tools';
+	print STDERR "\n";
 	exit();
 }
 $out = `which fastq-dump`;
 if($out =~ m/no fastq-dump in/){
-	print "The executable for fastq-dump not found on the path!\n";
-	print "Either download and install your own version, or use the provided tools by typing:\n";
-	print '    make tools';
-	print "\n";
+	print STDERR "The executable for fastq-dump not found on the path!\n";
+	print STDERR "Either download and install your own version, or use the provided tools by typing:\n";
+	print STDERR '    make tools';
+	print STDERR "\n";
 	exit();
 }
 
 #---------------------------------------------
+# Check that we have some databases partie
+
+if (!-e $dir."/db/") {
+	print STDERR "Welcome to PARTIE\n";
+	print STDERR "Please build the PARTIE databases by running the command\nmake\n";
+	print STDERR "This will download the databases from our server and build them for you\n";
+	print STDERR "Once you have run make, you should be able to use partie.pl to process your datasets\n";
+	exit();
+}
+
 #---------------------------------------------
 my $count;
 opendir(my $dh, "$dir/db") or die "opendir($dir.'/db'): $!";
@@ -46,8 +56,8 @@ while (my $de = readdir($dh)) {
 }
 closedir($dh);
 if($count < 18){
-	print "Databases not found!\n";
-	print "You will need to type 'make'\n";
+	print STDERR "Databases not found!\n";
+	print STDERR "You will need to type 'make'\n";
 	exit();
 }
 #---------------------------------------------
