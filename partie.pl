@@ -3,6 +3,40 @@ use File::Basename;
 use Getopt::Long qw(GetOptions);
 use Data::Dumper;
 use Cwd;
+use strict;
+
+#---------------------------------------------
+#---define number of reads used
+my $num_reads = 10000;
+#---define kmer length
+my $kmer_length = 15;
+#---define how few kmers are in a rare kmer
+my $rare_kmer = 10;
+
+my $help; my $version;
+
+GetOptions ("nreads=i" => \$num_reads,
+            "klen=i"   => \$kmer_length,
+            "nrare=i"  => \$rare_kmer,
+    	    "help"     => \$help,
+            "version"  => \$version);
+
+
+if ($help) {
+	&usage();
+}
+
+if ($version) {
+	&version();
+}
+
+unless($ARGV[0]){
+	&usage;
+}
+unless(-e $ARGV[0]){
+	print "Error: filename does not exist\n";
+	exit;
+}
 
 
 #---------------------------------------------
@@ -10,8 +44,8 @@ use Cwd;
 my $dir = getcwd;
 local $ENV{PATH} = "$ENV{PATH}:$dir/bin";
 
-$out = `which bowtie2`;
-if($out_jellyfish =~ m/no bowtie2 in/){
+my $out = `which bowtie2`;
+if($out =~ m/no bowtie2 in/){
 	print STDERR "The executable for Bowtie2 not found on the path!\n";
 	print STDERR "Either download and install your own version, or use the provided tools by typing:\n";
 	print STDERR '    make tools';
@@ -61,25 +95,9 @@ if($count < 18){
 	exit();
 }
 #---------------------------------------------
-#---------------------------------------------
-#---define number of reads used
-my $num_reads = 10000;
-#---define kmer length
-my $kmer_length = 15;
-#---define how few kmers are in a rare kmer
-my $rare_kmer = 10;
 
-GetOptions ("nreads=i" => \$num_reads,
-            "klen=i"   => \$kmer_length,
-            "nrare=i"  => \$num_rare_kmer);
 
-unless($ARGV[0]){
-	&usage;
-}
-unless(-e $ARGV[0]){
-	print "Error: filename does not exist\n";
-	exit;
-}
+
 my @suffixes = qw(.sra .fastq .fq .fasta .fna .fa);
 my ($filename, $path, $suffix) = fileparse($ARGV[0], @suffixes);
 
@@ -178,9 +196,27 @@ sub usage {
 	print "\n";
 	print "usage: ./partie.pl [options] READFILE\n";
 	print "\n";
-	print "Options: -nreads INT    the number of reads to pull sample from READFILE [10000]\n";
+	print "Options:\n";
+	print "         -nreads INT    the number of reads to pull sample from READFILE [10000]\n";
         print "         -klen   INT    the length of the kmers [15]\n";
         print "         -nrare  INT    maximum number a kmer can occur and still be considered rare [10]\n";
+	print "\n";
+	print "         -help          print this help menu\n";
+	print "         -version       print the current version\n";
+	print "\n";
 	exit();
 
+}
+
+sub version {
+	open(IN, "VERSION") || die "Error. The VERSION file which should be a part of PARTIE is not present";
+	my $ver = "Unknown";
+	while (<IN>) {
+		chomp;
+		$ver = $_;
+	}
+	close IN;
+	print "Version: $ver\n";
+	print "\n";
+	exit();
 }
