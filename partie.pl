@@ -13,13 +13,14 @@ my $kmer_length = 15;
 #---define how few kmers are in a rare kmer
 my $rare_kmer = 10;
 
-my $help; my $version;
+my $help; my $version; 
 
 GetOptions ("nreads=i" => \$num_reads,
             "klen=i"   => \$kmer_length,
             "nrare=i"  => \$rare_kmer,
     	    "help"     => \$help,
-            "version"  => \$version);
+            "version"  => \$version,
+    );
 
 
 if ($help) {
@@ -193,6 +194,13 @@ print "\n";
 
 
 sub usage {
+	
+	print "\nWelcome to PARTIE.\n==================\n";
+	if (! -e $dir."/db") {
+		print "\nBefore you run PARTIE you need to run download and build the databases\n";
+		print "You can easily do that by running the command\nmake\nin the terminal window. It will download what you need to make partie run\n";
+		print "Once you have installed the databases, these are the commands you can use to run PARTIE:\n";
+	}
 	print "\n";
 	print "usage: ./partie.pl [options] READFILE\n";
 	print "\n";
