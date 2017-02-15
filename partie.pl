@@ -35,7 +35,8 @@ unless($ARGV[0]){
 	&usage;
 }
 unless(-e $ARGV[0]){
-	print "Error: filename does not exist\n";
+	print "ERROR: READFILE filename was not provided\n\n";
+	&usage;
 	exit;
 }
 
@@ -47,26 +48,30 @@ local $ENV{PATH} = "$ENV{PATH}:$dir/bin";
 
 my $out = `which bowtie2`;
 if($out =~ m/no bowtie2 in/){
-	print STDERR "The executable for Bowtie2 not found on the path!\n";
-	print STDERR "Either download and install your own version, or use the provided tools by typing:\n";
-	print STDERR '    make tools';
+	print STDERR "The executable for bowtie2 was not found on the path!\n";
+	print STDERR "Please download and install it as described in INSTALLATION.md\n";
 	print STDERR "\n";
 	exit();
 }
 
 $out = `which jellyfish`;
 if($out =~ m/no jellyfish in/){
-	print STDERR "The executable for Jellyfish not found on the path!\n";
-	print STDERR "Either download and install your own version, or use the provided tools by typing:\n";
-	print STDERR '    make tools';
+	print STDERR "The executable for Jellyfish was not found on the path!\n";
+	print STDERR "Please download and install it as described in INSTALLATION.md\n";
 	print STDERR "\n";
 	exit();
 }
 $out = `which fastq-dump`;
 if($out =~ m/no fastq-dump in/){
-	print STDERR "The executable for fastq-dump not found on the path!\n";
-	print STDERR "Either download and install your own version, or use the provided tools by typing:\n";
-	print STDERR '    make tools';
+	print STDERR "The executable for fastq-dump was not found on the path!\n";
+	print STDERR "Please download and install it as described in INSTALLATION.md\n";
+	print STDERR "\n";
+	exit();
+}
+$out = `which seqtk`;
+if($out =~ m/no seqtk in/){
+	print STDERR "The executable for seqtk was not found on the path!\n";
+	print STDERR "Please download and install it as described in INSTALLATION.md\n";
 	print STDERR "\n";
 	exit();
 }
@@ -99,6 +104,7 @@ if($count < 18){
 
 
 
+
 my @suffixes = qw(.sra .fastq .fq .fasta .fna .fa);
 my ($filename, $path, $suffix) = fileparse($ARGV[0], @suffixes);
 
@@ -106,14 +112,12 @@ my ($filename, $path, $suffix) = fileparse($ARGV[0], @suffixes);
 #--- INFILE HANDLING
 #---------------------------------------------
 if($suffix =~ m/\.sra/){
-	my $out = `fastq-dump --fasta --split-spot --clip --skip-technical --readids --maxSpotId $num_reads  --stdout $ARGV[0] 2>&1 1> $filename.$num_reads.fna`;
+	my $out = `fastq-dump --fasta --read-filter pass --dumpbase --split-spot --clip --skip-technical --readids --maxSpotId $num_reads  --stdout $ARGV[0] 2>&1 1> $filename.$num_reads.fna`;
 	if($out =~ m/An error occurred/){
-		my $out = `fastq-dump --fasta --split-spot --readids --maxSpotId 10000  --stdout $ARGV[0] 2>&1 1> $filename.$num_reads.fna`;
+		my $out = `fastq-dump --fasta ---read-filter pass --dumpbase -split-spot --readids --maxSpotId $num_reads --stdout $ARGV[0] 2>&1 1> $filename.$num_reads.fna`;
 	}
-}elsif($suffix =~ m/\.[fq|fastq|fasta|fa|fna]/){
-	#system("./bin/seqtk seq -A $filename.fastx > $filename.$num_reads.fna");
-	print "Error: fasta file\n";
-	exit;
+}elsif($suffix =~ m/\.[fq|fastq|fasta|fa]/){
+	system("./bin/seqtk seq -A $filename.fastx > $filename.$num_reads.fna");
 }else{
 	print "Error: unrecognized infile type\n";
 }
@@ -201,17 +205,25 @@ sub usage {
 		print "You can easily do that by running the command\nmake\nin the terminal window. It will download what you need to make partie run\n";
 		print "Once you have installed the databases, these are the commands you can use to run PARTIE:\n";
 	}
-	print "\n";
-	print "usage: ./partie.pl [options] READFILE\n";
-	print "\n";
-	print "Options:\n";
-	print "         -nreads INT    the number of reads to pull sample from READFILE [10000]\n";
-        print "         -klen   INT    the length of the kmers [15]\n";
-        print "         -nrare  INT    maximum number a kmer can occur and still be considered rare [10]\n";
-	print "\n";
-	print "         -help          print this help menu\n";
-	print "         -version       print the current version\n";
-	print "\n";
+
+print <<EOF;
+
+usage: ./partie.pl [options] READFILE
+
+Options:
+	 -nreads INT    the number of reads to pull sample from READFILE [10000]
+	 -klen   INT    the length of the kmers [15]
+	 -nrare  INT    maximum number a kmer can occur and still be considered rare [10]\
+
+	 -help          print this help menu
+	 -version       print the current version
+
+READFILE can either be a fastq or fasta file, or it can be an SRA ID but it must end .sra. 
+If it is an SRA ID (ending .sra) we will use fastq-dump to download some of the sequences
+from the NCBI SRA.
+
+EOF
+
 	exit();
 
 }
