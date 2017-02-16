@@ -28,7 +28,7 @@ This is probably the best download, you can download the three databases we use 
 You can use make to install the files:
 
 ```
-make indices
+make indexes
 ```
 
 Or you can download each of the three files separately (you don't need to do this if you did make):
