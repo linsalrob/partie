@@ -1,36 +1,26 @@
 export PATH := $(PATH):$(PWD)/bin
 
+
+indexes:
+	echo "Downloading the indexed databases from edwards.sdsu.edu"
+	cd db
+	curl -LO http://edwards.sdsu.edu/PARTIE/16SMicrobial.bowtie2indices.bz2
+	curl -LO http://edwards.sdsu.edu/PARTIE/phage.bowtie2indices.bz2
+	curl -LO http://edwards.sdsu.edu/PARTIE/prokaryotes.bowtie2indices.bz2
+	echo "Extracting the databases"
+	tar vxf 16SMicrobial.bowtie2indices.bz2
+	tar vxf phage.bowtie2indices.bz2
+	tar vxf prokaryotes.bowtie2indices.bz2
+
 databases:
-	curl -LO http://edwards.sdsu.edu/~katelyn/db.tar.gz
+	curl -LO http://edwards.sdsu.edu/PARTIE/db.tar.gz
 	tar xvfz db.tar.gz
 	bowtie2-build db/16SMicrobial.fna db/16SMicrobial
 	bowtie2-build db/phages.fna db/phages
 	bowtie2-build db/prokaryotes.fna db/prokaryotes
 
-all: bowtie jellyfish sra-tools databases
 
-tools: bowtie jellyfish sra-tools
 
-bowtie:
-	cd tools && tar xvfz bowtie2-2.2.9.tar.gz
-	cd tools/bowtie2-2.2.9 && $(MAKE)
-	mkdir -p $(PWD)/bin
-	cp tools/bowtie2-2.2.9/bowtie2* $(PWD)/bin
 
-jellyfish:
-	cd tools && tar xvfz jellyfish-2.2.6.tar.gz
-	cd tools/jellyfish-2.2.6 && ./configure --prefix=$(PWD)
-	cd tools/jellyfish-2.2.6 && $(MAKE) install
+all: indexes
 
-sra-tools:
-	cd tools && tar xvfz ngs-1.2.5.tar.gz
-	cd tools/ngs-1.2.5/ngs-sdk && ./configure --prefix=$(PWD) --build-prefix=$(PWD) && $(MAKE) install
-	cd tools && tar xvfz ncbi-vdb-2.7.0.tar.gz
-	cd tools/ncbi-vdb-2.7.0 && ./configure --prefix=$(PWD) --build-prefix=$(PWD) --with-ngs-sdk-prefix=$(PWD) && $(MAKE) install
-	cd tools && tar xvfz sra-tools-2.7.0.tar.gz
-	cd tools/sra-tools-2.7.0 && ./configure --prefix=$(PWD) --with-ngs-sdk-prefix=$(PWD) --with-ncbi-vdb-sources=$(PWD)/tools/ncbi-vdb-2.7.0 --with-ncbi-vdb-build=$(PWD)/ncbi-vdb && $(MAKE) install
-seqtk:
-	cd tools && tar xvfz seqtk-1.2.95.tar.gz
-	cd tools/seqtk-1.2.95 && $(MAKE)
-	cp tools/seqtk-1.2.95/seqtk $(PWD)/bin 
-		
