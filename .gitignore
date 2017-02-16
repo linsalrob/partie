@@ -93,4 +93,3 @@ ENV/
 
 # the database directory and associated files
 db.tar.gz
-db/
