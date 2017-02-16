@@ -15,8 +15,8 @@ We typically classify the data sets into three groups:
  * OTHER: everything else
 
 We have released two files:
- * [SRA_Metagenome_Types.tsv](SRA_Metagenome_Types.tsv) is a tab separated file with two columns, the SRA run ID and the classification of the sequence.
- * [SRA_Partie_Data.tsv](SRA_Partie_Data.tsv) is a tab separated file with the Partie data described above in case you want to generate your own classification. The columns of this data are ID, percent unique k-mer, percent 16S rRNA, percent phage, percent prokaryote, and partie annotation. 
+ * [SRA_Metagenome_Types.tsv](https://github.com/linsalrob/partie/blob/master/SRA_Metagenome_Types.tsv?raw=true) is a tab separated file with two columns, the SRA run ID and the classification of the sequence.
+ * [SRA_Partie_Data.tsv](https://github.com/linsalrob/partie/blob/master/SRA_Partie_Data.tsv?raw=true) is a tab separated file with the Partie data described above in case you want to generate your own classification. The columns of this data are ID, percent unique k-mer, percent 16S rRNA, percent phage, percent prokaryote, and partie annotation. 
 
 
 The current version of this data release contains 271,438 SRA data sets:
@@ -26,4 +26,4 @@ The current version of this data release contains 271,438 SRA data sets:
 
 # Installation
 
-Please see the [installation](INSTALLATION.md) page to find out about the prerequisites and to install the databases for PARTIE.
+Please see the [installation](https://github.com/linsalrob/partie/blob/master/INSTALLATION.md) page to find out about the prerequisites and to install the databases for PARTIE.
