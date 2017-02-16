@@ -1,4 +1,3 @@
-export PATH := $(PATH):$(PWD)/bin
 
 
 indexes:
@@ -12,8 +11,8 @@ indexes:
 	tar vxf prokaryotes.bowtie2indices.bz2
 
 databases:
-	curl -LO http://edwards.sdsu.edu/PARTIE/db.tar.gz
-	tar xvfz db.tar.gz
+	curl -LO http://edwards.sdsu.edu/PARTIE/partiedb.tar.bz2
+	tar vxk partiedb.tar.bz2
 	bowtie2-build 16SMicrobial.fna 16SMicrobial
 	bowtie2-build phages.fna phages
 	bowtie2-build prokaryotes.fna prokaryotes
