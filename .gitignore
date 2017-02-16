@@ -91,5 +91,8 @@ ENV/
 # backup files that we don't need because we have versioning!
 *.bak
 
+# vi temporary files
+.swp
+
 # the database directory and associated files
 db.tar.gz
