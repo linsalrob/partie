@@ -20,7 +20,7 @@ Follow the installation instructions for each of those libraries.
 Once the libraries are installed you can clone the code base from GitHub:
 
 ```
-git clone https://github.com/linsalrob/partie
+git clone https://github.com/linsalrob/partie.git
 ```
 
 
