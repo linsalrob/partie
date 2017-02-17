@@ -28,8 +28,9 @@ perl partie.pl ERR162903.sra
 
 These are the numbers you should get out of partie for these examples.
 
+
 Test data set | percent unique kmer | percent 16S | percent PHAGE | percent PROKARYOTE
-- | - | - | - | -
+--- | --- | --- | --- | ---
 16S Test Sequences< | 90.8609271523179 | 100 | 0 | 80
 phages Test | 99.9818247909851 | 0 | 100 | 50
 prokaryote | 100 | 0 | 0 | 100
