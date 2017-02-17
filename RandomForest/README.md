@@ -1,3 +1,5 @@
+# Classification of predictions
+
 How to use PARTIE randomForest classification:
 
 PARTIE output should be in txt format. In this example it is named 'Example_partie_output_SRR3939281.txt'.
