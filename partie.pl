@@ -155,10 +155,12 @@ my ($filename, $path, $suffix) = fileparse($ARGV[0], @suffixes);
 if($suffix =~ m/\.sra/){
 	if ($verbose) {print STDERR "FASTQ-DUMP: $fqdmp --fasta --read-filter pass --dumpbase --split-spot --clip --skip-technical --readids --maxSpotId $num_reads  --stdout $filename 2>&1 1> $filename.$num_reads.fna\n"}
 	my $out = `$fqdmp --fasta --read-filter pass --dumpbase --split-spot --clip --skip-technical --readids --maxSpotId $num_reads  --stdout $filename 2>&1 1> $filename.$num_reads.fna `;
-	#if($out =~ m/An error occurred/){
-	if ($out) {
+	if($out =~ m/An error occurred/){
 		print STDERR "There was a fatal error with fastq dump\n$out\n";
 		exit;
+	}
+	elsif ($out && $verbose) {
+		print STDERR "WARNING (non-fatal): $fqdmp output: $out";
 	}
 }elsif($suffix =~ m/\.fq|\.fastq|\.fasta|\.fa|\.fna/){
 	system("$seqtk seq -A $ARGV[0] > $filename.$num_reads.fna");
