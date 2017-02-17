@@ -157,11 +157,11 @@ my ($filename, $path, $suffix) = fileparse($ARGV[0], @suffixes);
 #--- INFILE HANDLING
 #---------------------------------------------
 if($suffix =~ m/\.sra/){
-	my $out = `$fqdmp --fasta --read-filter pass --dumpbase --split-spot --clip --skip-technical --readids --maxSpotId $num_reads  --stdout $ARGV[0] 2>&1 1> $filename.$num_reads.fna`;
+	my $out = `$fqdmp --fasta --read-filter pass --dumpbase --split-spot --clip --skip-technical --readids --maxSpotId $num_reads  --stdout $ARGV[0] 1> $filename.$num_reads.fna 2>&1 `;
 	if($out =~ m/An error occurred/){
-		my $out = `$fqdmp --fasta ---read-filter pass --dumpbase -split-spot --readids --maxSpotId $num_reads --stdout $ARGV[0] 2>&1 1> $filename.$num_reads.fna`;
+		my $out = `$fqdmp --fasta ---read-filter pass --dumpbase -split-spot --readids --maxSpotId $num_reads --stdout $ARGV[0] 1> $filename.$num_reads.fna 2>&1 `;
 	}
-}elsif($suffix =~ m/\.[fq|fastq|fasta|fa]/){
+}elsif($suffix =~ m/\.fq|\.fastq|\.fasta|\.fa|\.fna/){
 	system("$seqtk seq -A $ARGV[0] > $filename.$num_reads.fna");
 }else{
 	print "Error: unrecognized infile type\n";
