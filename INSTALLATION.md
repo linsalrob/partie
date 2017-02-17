@@ -68,4 +68,4 @@ bowtie2-build db/prokaryotes.fna db/prokaryotes
 
 ## Using PARTIE
 
-Once you have installed all the dependencies you should be able to run the test code
+Once you have installed all the dependencies you should be able to run the [test code](TEST.md) for PARTIE.
