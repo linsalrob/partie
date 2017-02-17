@@ -7,12 +7,22 @@ PARTIE requires several tools to run and a database.
 You will need to have the following software installed before you can run PARTIE
 
 - curl This should be already installed, if not you can [download it from here](https://curl.haxx.se/download.html)
+- R and the randomForest library. Once you have R installed you can install that library with `install.packages(c("randomForest"), dependencies=TRUE);`
 - bowtie2 [Available from sourceforge](https://sourceforge.net/projects/bowtie-bio/files/bowtie2/)
 - jellyfish [Available from github](https://github.com/gmarcais/Jellyfish)
 - seqtk [Available from github](https://github.com/lh3/seqtk)
 - the NCBI SRA Toolkit. You should [download the prebuilt binaries](https://github.com/ncbi/sra-tools/wiki/Downloads)
 
 Follow the installation instructions for each of those libraries.
+
+## Clone the code from GitHub
+
+Once the libraries are installed you can clone the code base from GitHub:
+
+```
+git clone https://github.com/linsalrob/partie
+```
+
 
 ## Databases
 
@@ -22,7 +32,7 @@ We provide the databases in two formats, and there are two ways you can install 
 
 ### Formatted databases
 
-This is probably the best download, you can download the three databases we use already formatted for bowtie2. These three databases should be in the `db/` directory under PARTIE.
+This is probably the best download, you can download the three databases we use already formatted for bowtie2. These three databases should end up in the `db/` directory under PARTIE.
 
 
 You can use make to install the files:
