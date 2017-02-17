@@ -35,19 +35,20 @@ my $seqtk; # the seqtk executable and path
 #---------------------------------------------
 
 my $help; my $version; 
-my $verbose;
+my $verbose; my $keep;
 
 GetOptions (
-	"nreads=i"  => \$num_reads,
-	"klen=i"    => \$kmer_length,
-	"nrare=i"   => \$rare_kmer,
-	"help"      => \$help,
-	"version"   => \$version,
+	"nreads=i"    => \$num_reads,
+	"klen=i"      => \$kmer_length,
+	"nrare=i"     => \$rare_kmer,
+	"help"        => \$help,
+	"version"     => \$version,
 	"bowtie2=s"   => \$bt2,
 	"jellyfish=s" => \$jf,
 	"fastqdump=s" => \$fqdmp,
 	"seqtk=s"     => \$seqtk,
-	"verbose"   => \$verbose,
+	"verbose"     => \$verbose,
+        "keep"        => \$keep,
     );
 
 
@@ -61,11 +62,6 @@ if ($version) {
 
 unless($ARGV[0]){
 	&usage;
-}
-unless(-e $ARGV[0]){
-	print "ERROR: READFILE filename was not provided\n\n";
-	&usage;
-	exit;
 }
 
 unless ($bt2) {
@@ -205,9 +201,7 @@ if($out =~ m/\((\S+)%\)/){
 }
 #---COUNT UNIQUE KMERS
 system("$jf count -m $kmer_length -s 100M -o $filename.$num_reads.jf $filename.$num_reads.fna");
-unlink("$filename.$num_reads.fna");
 system("$jf dump -c $filename.$num_reads.jf > $filename.$num_reads.txt");
-unlink("$filename.$num_reads.jf");
 my $total = 0;
 my $count = 0;
 open(INFILE, "$filename.$num_reads.txt");
@@ -220,7 +214,12 @@ while (<INFILE>) {
 	}
 }
 close(INFILE); 
-unlink("$filename.$num_reads.txt");
+
+if (!$keep) {
+	unlink("$filename.$num_reads.fna");
+	unlink("$filename.$num_reads.jf");
+	unlink("$filename.$num_reads.txt");
+}
 
 #---OUPUT
 print "percent unique kmer\t";
@@ -270,6 +269,10 @@ Options:
 	 -fastqdump     path to fastq-dump
 	 -jellyfish     path to jellyfish
 	 -seqtk         path to seqtk
+
+	 You can use these options to diagnose issues with partie
+	 -keep          keep the sequences that were processed from the input file and/or downloaded from SRA
+
 
 READFILE can either be a fastq or fasta file, or it can be an SRA ID but it must end .sra. 
 If it is an SRA ID (ending .sra) we will use fastq-dump to download some of the sequences
