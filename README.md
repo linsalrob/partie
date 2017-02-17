@@ -27,3 +27,33 @@ The current version of this data release contains 271,438 SRA data sets:
 # Installation
 
 Please see the [installation](INSTALLATION.md) page to find out about the prerequisites and to install the databases for PARTIE.
+
+# Testing
+
+Please see the [test suite](TEST.md) for PARTIE
+
+# Running PARTIE
+
+You can provide PARTIE with several different inputs. We use the extension to figure out what kind of input you have provided.
+
+- fasta DNA sequence files (ending .fna, .fa, or .fasta)
+- fastq DNA sequence files (ending .fq or .fastq)
+- SRA run IDs. Append .sra to the end (e.g. DRR023185.sra)
+- A text file with a list of SRA ids (ending .txt)
+
+
+## Run partie with fasta or fastq files
+
+```
+perl partie.pl <fasta file>
+perl partie.pl <fastq file>
+```
+
+## Run partie with an SRA ID
+
+
+```
+perl partie.pl SRAID.sra
+```
+
+For more examples, see the [testing](TEST.md) documentation.
