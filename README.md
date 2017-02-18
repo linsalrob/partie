@@ -57,3 +57,19 @@ perl partie.pl SRAID.sra
 ```
 
 For more examples, see the [testing](TEST.md) documentation.
+
+
+# Classifying the data
+
+We have provided a pre-built classifier, though if you would like to rebuild the classifier, you can run the training code. You should not need to do that though.
+
+Once you have the output from partie, you can run the classifier:
+
+```
+Rscript RandomForest/PARTIE_Classification.R outputfile.txt
+```
+
+For more examples, see the [testing](TEST.md#Classification) documentation.
+
+
+

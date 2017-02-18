@@ -24,16 +24,63 @@ perl partie.pl ERR696648.sra
 perl partie.pl ERR162903.sra
 ```
 
+
+## Run all the tests simultaneously
+
+You can run all the tests and create a single output file. Notice that the noheader flag suppresses the output of the column labels. If you redirect this output to a file, you should get the same results as in tests/Example_partie_output.txt
+
+```
+perl partie.pl tests/16STest.fq
+perl partie.pl -noheader tests/16STest.fna
+perl partie.pl -noheader tests/phagesTest.fna
+perl partie.pl -noheader tests/phagesTest.fq 
+perl partie.pl -noheader tests/prokaryote.fna
+perl partie.pl -noheader tests/prokaryote.fq
+perl partie.pl -noheader ERR696648.sra
+perl partie.pl -noheader ERR162903.sra
+perl partie.pl -noheader SRR3939281.sra
+```
+
+
 ## Results
 
 These are the numbers you should get out of partie for these examples.
 
 
-Test data set | percent unique kmer | percent 16S | percent PHAGE | percent PROKARYOTE
+sample_name | percent_unique_kmer | percent_16S | percent_phage | percent_Prokaryote
 --- | --- | --- | --- | ---
-16S Test Sequences< | 90.8609271523179 | 100 | 0 | 80
-phages Test | 99.9818247909851 | 0 | 100 | 50
-prokaryote | 100 | 0 | 0 | 100
-ERR696648 | 71.7163948268223 | 0.03 | 0.01 | 3.49
-ERR162903 | 33.6436026285273 | 13.92 | 0.5 | 25.5
+16STest.fq | 14.3895348837209 | 100 | 0 | 100
+16STest.fna | 14.3895348837209 | 100 | 0 | 100
+phagesTest.fna | 99.9818247909851 | 0 | 100 | 50
+phagesTest.fq | 99.9818247909851 | 0 | 100 | 50
+prokaryote.fna | 100 | 0 | 0 | 100
+prokaryote.fq | 100 | 0 | 0 | 100
+ERR696648.sra | 71.7163948268223 | 0.0300000000000011 | 0.0100000000000051 | 3.48999999999999
+ERR162903.sra | 33.6436026285273 | 13.92 | 0.5 | 25.5
+SRR3939281.sra | 88.8802850527492 | 0.329999999999998 | 0.890000000000001 | 1.39
 
+# Classification
+
+To use the classifier, you can run the Rscript:
+
+```
+Rscript RandomForest/PARTIE_Classification.R tests/Example_partie_output.txt
+```
+
+This will generate the following output:
+
+
+ | percent_unique_kmer | percent_16S | percent_phage | percent_Prokaryote | PARTIE_Annotation
+--- | --- | --- | --- | --- | ---
+16STest.fq | 14.3895348837209 | 100 | 0 | 100 | AMPLICON
+16STest.fna | 14.3895348837209 | 100 | 0 | 100 | AMPLICON
+phagesTest.fna | 99.9818247909851 | 0 | 100 | 50 | OTHER
+phagesTest.fq | 99.9818247909851 | 0 | 100 | 50 | OTHER
+prokaryote.fna | 100 | 0 | 0 | 100 | WGS
+prokaryote.fq | 100 | 0 | 0 | 100 | WGS
+ERR696648.sra | 71.7163948268223 | 0.0300000000000011 | 0.0100000000000051 | 3.48999999999999 | WGS
+ERR162903.sra | 33.6436026285273 | 13.92 | 0.5 | 25.5 | AMPLICON
+SRR3939281.sra | 88.8802850527492 | 0.329999999999998 | 0.890000000000001 | 1.39 | WGS
+
+
+Note the additional column that includes the PARTIE classification.
