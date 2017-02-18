@@ -227,11 +227,14 @@ if (!$keep) {
 }
 
 #---OUPUT
+print "Sample name\t";
 print "percent unique kmer\t";
 print "\tpercent 16S\t";
 print "\tpercent PHAGE\t";
 print "\tpercent PROKARYOTE\t";
 print "\n";
+print $ARGV[0];
+print "\t";
 if($total){
 	print (($count/$total)*100);
 }else{
