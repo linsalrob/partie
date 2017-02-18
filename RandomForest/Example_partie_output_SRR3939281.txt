@@ -1,2 +1,0 @@
-percent_unique_kmer	percent_16S	percent_phage	percent_Prokaryote
-79.1138213	0.4	0.81	1.6
