@@ -233,7 +233,7 @@ print "\tpercent 16S\t";
 print "\tpercent PHAGE\t";
 print "\tpercent PROKARYOTE\t";
 print "\n";
-print $ARGV[0];
+print $filename;
 print "\t";
 if($total){
 	print (($count/$total)*100);
