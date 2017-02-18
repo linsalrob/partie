@@ -2,7 +2,7 @@
 
 
 args = commandArgs(trailingOnly=TRUE)
-file_reads = args[1]#the argument will be the SRA partie output
+file_reads = args[1] # the argument will be the SRA partie output
 
 
 #loading library
@@ -10,11 +10,13 @@ library(randomForest)
 #load model
 Partie.train.rf=readRDS("./final_model.rds")
 
+
 #below is the PARTIE file you want to classify. This will be the output .txt file from partie.pl
-test=as.data.frame(read.table(file=file_reads, sep="\t",header=T,as.is = T, check.names = F))
+test=as.data.frame(read.table(file=file_reads, sep="\t",header=T,as.is = T, check.names = F, row.names=1))
+# ignore the first entry which is the sample name
 trf=predict(Partie.train.rf, test)
 
 test$PARTIE_Annotation=predict(Partie.train.rf, newdata = test)
 head(test)
-write.csv(test, 'partie_classification.csv', row.names=FALSE)
+write.csv(test, 'partie_classification.csv', row.names=TRUE)
 
