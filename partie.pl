@@ -35,7 +35,7 @@ my $seqtk; # the seqtk executable and path
 #---------------------------------------------
 
 my $help; my $version; 
-my $verbose; my $keep;
+my $verbose; my $keep; my $noheader;
 
 GetOptions (
 	"nreads=i"    => \$num_reads,
@@ -49,6 +49,7 @@ GetOptions (
 	"seqtk=s"     => \$seqtk,
 	"verbose"     => \$verbose,
         "keep"        => \$keep,
+	"noheader"    => \$noheader,
     );
 
 
@@ -227,26 +228,15 @@ if (!$keep) {
 }
 
 #---OUPUT
-print "Sample name\t";
-print "percent unique kmer\t";
-print "\tpercent 16S\t";
-print "\tpercent PHAGE\t";
-print "\tpercent PROKARYOTE\t";
-print "\n";
-print $filename;
+if (!$noheader) {print "sample_name\tpercent_unique_kmer\tpercent_16S\tpercent_phage\tpercent_Prokaryote\n"}
+print $ARGV[0];
 print "\t";
 if($total){
 	print (($count/$total)*100);
 }else{
       	print "0";
 }
-print "\t";
-print $percent_16S;
-print "\t";
-print $percent_phage;
-print "\t";
-print $percent_prokaryote;
-print "\n";
+print "\t", join("\t", $percent_16S, $percent_phage, $percent_prokaryote), "\n";
 
 
 sub usage {
@@ -277,6 +267,9 @@ Options:
 	 -fastqdump     path to fastq-dump
 	 -jellyfish     path to jellyfish
 	 -seqtk         path to seqtk
+
+	 These optinos alter the output
+	 -noheader	do not display the header line
 
 	 You can use these options to diagnose issues with partie
 	 -keep          keep the sequences that were processed from the input file and/or downloaded from SRA
