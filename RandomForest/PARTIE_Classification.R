@@ -2,13 +2,26 @@
 
 
 args = commandArgs(trailingOnly=TRUE)
+if (! file.exists(args[1])) {
+	write("Usage: PARTIE_Classification.R <file of partie.pl output>", stderr())
+	quit(status=1)
+}
+
 file_reads = args[1] # the argument will be the SRA partie output
 
 
 #loading library
 library(randomForest)
 #load model
-Partie.train.rf=readRDS("./final_model.rds")
+
+if (file.exists("./final_model.rds")) {
+	Partie.train.rf=readRDS("./final_model.rds")
+} else if (file.exists("RandomForest/final_model.rds")) {
+	Partie.train.rf=readRDS("RandomForest/final_model.rds")
+} else {
+	write("R could not find the trained model final_model.rds. Please run PARTIE_Training.R", stderr())
+	quit(status=1)
+}
 
 
 #below is the PARTIE file you want to classify. This will be the output .txt file from partie.pl
