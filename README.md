@@ -69,7 +69,7 @@ Once you have the output from partie, you can run the classifier:
 Rscript RandomForest/PARTIE_Classification.R outputfile.txt
 ```
 
-For more examples, see the [testing](TEST.md#Classification) documentation.
+For more examples, see the [testing](TEST.md#classification) documentation.
 
 
 
