@@ -49,15 +49,15 @@ These are the numbers you should get out of partie for these examples.
 
 sample_name | percent_unique_kmer | percent_16S | percent_phage | percent_Prokaryote
 --- | --- | --- | --- | ---
-16STest.fq | 14.3895348837209 | 100 | 0 | 100
-16STest.fna | 14.3895348837209 | 100 | 0 | 100
-phagesTest.fna | 99.9818247909851 | 0 | 100 | 50
-phagesTest.fq | 99.9818247909851 | 0 | 100 | 50
+16STest.fq | 14.39| 100 | 0 | 100
+16STest.fna | 14.39| 100 | 0 | 100
+phagesTest.fna | 99.98| 0 | 100 | 50
+phagesTest.fq | 99.98| 0 | 100 | 50
 prokaryote.fna | 100 | 0 | 0 | 100
 prokaryote.fq | 100 | 0 | 0 | 100
-ERR696648.sra | 71.7163948268223 | 0.0300000000000011 | 0.0100000000000051 | 3.48999999999999
-ERR162903.sra | 33.6436026285273 | 13.92 | 0.5 | 25.5
-SRR3939281.sra | 88.8802850527492 | 0.329999999999998 | 0.890000000000001 | 1.39
+ERR696648.sra | 71.72 | 0.03 | 0.01 | 3.49
+ERR162903.sra | 33.64 | 13.92 | 0.5 | 25.5
+SRR3939281.sra | 88.88 | 0.33 | 0.89 | 1.39
 
 # Classification
 
@@ -72,15 +72,15 @@ This will generate the following output:
 
  | percent_unique_kmer | percent_16S | percent_phage | percent_Prokaryote | PARTIE_Annotation
 --- | --- | --- | --- | --- | ---
-16STest.fq | 14.3895348837209 | 100 | 0 | 100 | AMPLICON
-16STest.fna | 14.3895348837209 | 100 | 0 | 100 | AMPLICON
-phagesTest.fna | 99.9818247909851 | 0 | 100 | 50 | OTHER
-phagesTest.fq | 99.9818247909851 | 0 | 100 | 50 | OTHER
+16STest.fq | 14.39 | 100 | 0 | 100 | AMPLICON
+16STest.fna | 14.39 | 100 | 0 | 100 | AMPLICON
+phagesTest.fna | 99.98 | 0 | 100 | 50 | OTHER
+phagesTest.fq | 99.98 | 0 | 100 | 50 | OTHER
 prokaryote.fna | 100 | 0 | 0 | 100 | WGS
 prokaryote.fq | 100 | 0 | 0 | 100 | WGS
-ERR696648.sra | 71.7163948268223 | 0.0300000000000011 | 0.0100000000000051 | 3.48999999999999 | WGS
-ERR162903.sra | 33.6436026285273 | 13.92 | 0.5 | 25.5 | AMPLICON
-SRR3939281.sra | 88.8802850527492 | 0.329999999999998 | 0.890000000000001 | 1.39 | WGS
+ERR696648.sra | 71.72 | 0.03 | 0.01 | 3.49 | WGS
+ERR162903.sra | 33.64 | 13.92 | 0.5 | 25.5 | AMPLICON
+SRR3939281.sra | 88.88 | 0.33 | 0.89 | 1.39 | WGS
 
 
 Note the additional column that includes the PARTIE classification.
