@@ -84,4 +84,5 @@ SRR3939281.sra | 88.88 | 0.33 | 0.89 | 1.39 | WGS
 
 
 Note the additional column that includes the PARTIE classification.
+
 *Example in which both WGS and amplicon sequencing is used. In this case the authors used viral metagenomics and 16S rRNA amplicon sequencing. We recommend examining the four calculated parameters as no partition approach will correctly classify this library.
