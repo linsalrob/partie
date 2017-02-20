@@ -79,8 +79,9 @@ phagesTest.fq | 99.98 | 0 | 100 | 50 | OTHER
 prokaryote.fna | 100 | 0 | 0 | 100 | WGS
 prokaryote.fq | 100 | 0 | 0 | 100 | WGS
 ERR696648.sra | 71.72 | 0.03 | 0.01 | 3.49 | WGS
-ERR162903.sra | 33.64 | 13.92 | 0.5 | 25.5 | AMPLICON
+ERR162903.sra* | 33.64 | 13.92 | 0.5 | 25.5 | AMPLICON
 SRR3939281.sra | 88.88 | 0.33 | 0.89 | 1.39 | WGS
 
 
 Note the additional column that includes the PARTIE classification.
+*Example in which both WGS and amplicon sequencing is used. In this case the authors used viral metagenomics and 16S rRNA amplicon sequencing. We recommend examining the four calculated parameters as no partition approach will correctly classify this library.
