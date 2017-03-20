@@ -68,7 +68,7 @@ To install this way using make
 make databases
 ```
 
-Or you can download them from [edwards.sdsu.edu](http://edwards.sdsu.edu/~katelyn/partiedb.tar.gz) and then build them with bowtie2-build:
+Or you can download them from [edwards.sdsu.edu](http://edwards.sdsu.edu/PARTIE/partiedb.tar.bz2) and then build them with bowtie2-build:
 
 ```
 bowtie2-build db/16SMicrobial.fna db/16SMicrobial
