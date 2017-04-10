@@ -70,7 +70,7 @@ Rscript RandomForest/PARTIE_Classification.R tests/Example_partie_output.txt
 This will generate the following output:
 
 
- | percent unique kmer | percent 16S | percent phage | percent Prokaryote | PARTIE Annotation
+Data | percent unique kmer | percent 16S | percent phage | percent Prokaryote | PARTIE Annotation
 --- | --- | --- | --- | --- | ---
 16STest.fq | 14.39 | 100 | 0 | 100 | AMPLICON
 16STest.fna | 14.39 | 100 | 0 | 100 | AMPLICON
