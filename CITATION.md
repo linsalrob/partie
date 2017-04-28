@@ -1,5 +1,5 @@
 # If you use PARTIE please cite:
 
-P.J. Torres, R. A. Edwards, and K. McNair. PARTIE: A Partition Engine to Separate Metagenomics and Amplicon Projects in the Sequence Read Archive. In review.
+Pedro J. Torres, Robert A. Edwards, Katelyn A. McNair. PARTIE: a partition engine to separate metagenomic and amplicon projects in the Sequence Read Archive. Bioinformatics 2017 btx184. doi: 10.1093/bioinformatics/btx184
 
 
