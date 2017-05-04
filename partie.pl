@@ -268,7 +268,7 @@ Options:
 	 -jellyfish     path to jellyfish
 	 -seqtk         path to seqtk
 
-	 These optinos alter the output
+	 These options alter the output
 	 -noheader	do not display the header line
 
 	 You can use these options to diagnose issues with partie
