@@ -7,7 +7,7 @@ use Cwd;
 #---------------------------------------------
 #my $dir = getcwd;
 my $dir = $0;
-$dir =~ s/partie.pl$//;
+$dir =~ s#/partie.pl$##;
 local $ENV{PATH} = "$ENV{PATH}:$dir/bin";
 use strict;
 
@@ -174,17 +174,18 @@ if($suffix =~ m/\.sra/){
 #---------------------------------------------
 #---------------------------------------------
 #--CHECK DATABASES
-my $out = `$bt2-inspect -s db/16SMicrobial 2>&1 1> /dev/null`;
+my $out = `$bt2-inspect -s $dir/db/16SMicrobial 2>&1 1> /dev/null`;
 if($out){
 	print "Error: 16S database corrupted\n";
+	print $out;
 	exit();
 }
-my $out = `$bt2-inspect -s db/phages 2>&1 1> /dev/null`;
+my $out = `$bt2-inspect -s $dir/db/phages 2>&1 1> /dev/null`;
 if($out){
 	print "Error: phages database corrupted\n";
 	exit();
 }
-my $out = `$bt2-inspect -s db/prokaryotes 2>&1 1> /dev/null`;
+my $out = `$bt2-inspect -s $dir/db/prokaryotes 2>&1 1> /dev/null`;
 if($out){
 	print "Error: prokaryotes database corrupted\n";
 	exit();
@@ -192,19 +193,19 @@ if($out){
 
 #--COUNT HITS TO 16S
 my $percent_16S = 0;
-my $out = `$bt2 -f -k 1 -x db/16SMicrobial $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
+my $out = `$bt2 -f -k 1 -x $dir/db/16SMicrobial $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_16S = 100-$1;
 }
 #---COUNT HITS TO PHAGES
 my $percent_phage = 0;
-my $out = `$bt2 -f -k 1 -x db/phages $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
+my $out = `$bt2 -f -k 1 -x $dir/db/phages $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_phage = 100-$1;
 }
 #---COUNT HITS TO PROKARYOTES
 my $percent_prokaryote = 0;
-my $out = `$bt2 -f -k 1 -x db/prokaryotes $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
+my $out = `$bt2 -f -k 1 -x $dir/db/prokaryotes $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_prokaryote = 100-$1;
 }
