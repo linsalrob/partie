@@ -5,7 +5,9 @@ use Data::Dumper;
 use Cwd;
 
 #---------------------------------------------
-my $dir = getcwd;
+#my $dir = getcwd;
+my $dir = $0;
+$dir =~ s/partie.pl$//;
 local $ENV{PATH} = "$ENV{PATH}:$dir/bin";
 use strict;
 
