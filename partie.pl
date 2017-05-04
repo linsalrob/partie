@@ -123,6 +123,7 @@ EOF
 
 if (!-e $dir."/db/16SMicrobial.1.bt2") {
 	print STDERR "Welcome to PARTIE\n";
+	print STDERR "The file ".$dir."/db/16SMicrobial.1.bt2 was not found\n";
 	print STDERR "Please build the PARTIE databases by running the command\nmake\n";
 	print STDERR "This will download the databases from our server and build them for you\n";
 	print STDERR "Once you have run make, you should be able to use partie.pl to process your datasets\n";
