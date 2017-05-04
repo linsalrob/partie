@@ -100,3 +100,4 @@ db/*.bt2
 db/*.bt2l
 db/*bzip2
 db/*bz2
+db/raw_db
