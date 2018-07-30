@@ -16,6 +16,7 @@ HOST=`hostname`
 WD=$PWD
 
 DATE=`date +%b_%Y`
+cd $DATE/partie
 
 # cat the header and the files in one go:
 head -n 1 ~/partie/SRA_PARTIE_DATA.txt | sed -e 's/\s\+PARTIE_Annotation//'  | cat - sge_out/* | grep -vP '0\t0\t0\t0' > partie_${DATE}.txt

@@ -23,10 +23,18 @@ fi
 mkdir $DATE
 cd $DATE
 
+# get the modification time
+curl --head https://s3.amazonaws.com/starbuck1/sradb/SRAmetadb.sqlite.gz > timestamp.txt
+grep Last-Modified timestamp.txt | sed -e 's/Last-Modified: //' > ~/GitHubs/partie/SRA_Update_Time
 
 # Download one of the SRA SQLite databases:
 echo "Downloading and extracting the new SQL Lite data base"
-wget 'https://gbnci-abcc.ncifcrf.gov/backup/SRAmetadb.sqlite.gz'
+curl -Lo SRAmetadb.sqlite.gz "https://s3.amazonaws.com/starbuck1/sradb/SRAmetadb.sqlite.gz"
+if [ ! -e SRAmetadb.sqlite.gz ]; then
+	echo "ERROR: No database was downloaded"
+	exit -1
+fi
+echo "Uncompressing the gzip file";
 gunzip SRAmetadb.sqlite.gz
 
 
