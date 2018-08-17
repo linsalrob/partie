@@ -7,7 +7,8 @@ use Cwd;
 #---------------------------------------------
 #my $dir = getcwd;
 my $dir = $0;
-$dir =~ s#/partie.pl$##;
+$dir =~ s#/*partie.pl$##;
+unless ($dir) {$dir = "./"}
 local $ENV{PATH} = "$ENV{PATH}:$dir/bin";
 use strict;
 
