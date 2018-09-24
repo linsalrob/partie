@@ -170,7 +170,8 @@ if($suffix =~ m/\.sra/){
 }elsif($suffix =~ m/\.fq|\.fastq|\.fasta|\.fa|\.fna/){
 	system("$seqtk seq -A $ARGV[0] > $filename.$num_reads.fna");
 }else{
-	print "Error: unrecognized infile type\n";
+	print "Error: unrecognized infile type\nPlease use the file ending .sra if you wish us to download it from SRA. Otherwise a fasta/q file ending is required.\n";
+	exit;
 }
 #---------------------------------------------
 #---------------------------------------------
