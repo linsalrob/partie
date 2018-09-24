@@ -212,6 +212,10 @@ if($out =~ m/\((\S+)%\)/){
 	$percent_prokaryote = 100-$1;
 }
 #---COUNT UNIQUE KMERS
+if ($verbose) {
+	print STDERR "Attempting to run Jellyfish with:\n$jf count -m $kmer_length -s 100M -o $filename.$num_reads.jf $filename.$num_reads.fna\n";
+	print STDERR "$jf dump -c $filename.$num_reads.jf > $filename.$num_reads.txt\n";
+}
 system("$jf count -m $kmer_length -s 100M -o $filename.$num_reads.jf $filename.$num_reads.fna");
 system("$jf dump -c $filename.$num_reads.jf > $filename.$num_reads.txt");
 my $total = 0;
