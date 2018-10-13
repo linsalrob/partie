@@ -195,22 +195,35 @@ if($out){
 
 #--COUNT HITS TO 16S
 my $percent_16S = 0;
-my $out = `$bt2 -f -k 1 -x $dir/db/16SMicrobial $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
+my $outputfile = "/dev/null";
+if ($keep) {$outputfile = "microbial.hits.txt"}
+my $out = `$bt2 -f -k 1 -x $dir/db/16SMicrobial $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_16S = 100-$1;
 }
 #---COUNT HITS TO PHAGES
 my $percent_phage = 0;
-my $out = `$bt2 -f -k 1 -x $dir/db/phages $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
+if ($keep) {$outputfile = "phage.hits.txt"}
+my $out = `$bt2 -f -k 1 -x $dir/db/phages $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_phage = 100-$1;
 }
 #---COUNT HITS TO PROKARYOTES
 my $percent_prokaryote = 0;
-my $out = `$bt2 -f -k 1 -x $dir/db/prokaryotes $filename.$num_reads.fna 2>&1 1> /dev/null | grep 'aligned 0 time'`;
+if ($keep) {$outputfile = "prokayote.hits.txt"}
+my $out = `$bt2 -f -k 1 -x $dir/db/prokaryotes $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_prokaryote = 100-$1;
 }
+
+if ($keep && $verbose) {
+	print STDERR "NOTE: We have only kept the alignment mapping summary. If you want to keep the alignments, you should use these three commands:\n";
+	print STDERR "$bt2 -f -k 1 -x $dir/db/16SMicrobial $filename.$num_reads.fna > microbial.sam\n";
+	print STDERR "$bt2 -f -k 1 -x $dir/db/phages $filename.$num_reads.fna > phages.sam\n";
+	print STDERR "$bt2 -f -k 1 -x $dir/db/prokaryotes $filename.$num_reads.fna > prokaryotes.sam\n";
+}
+
+
 #---COUNT UNIQUE KMERS
 if ($verbose) {
 	print STDERR "Attempting to run Jellyfish with:\n$jf count -m $kmer_length -s 100M -o $filename.$num_reads.jf $filename.$num_reads.fna\n";
