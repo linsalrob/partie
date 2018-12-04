@@ -68,5 +68,16 @@ Rscript RandomForest/PARTIE_Classification.R outputfile.txt
 
 For more examples, see the [testing](TEST.md#classification) documentation.
 
+# Size Restrictions
+
+There is a minimum limit to how much data we need before we can accurately classify something. For example, we can't really classify a metagenome (or an amplicon library) that has [a single 150 bp read](https://www.ncbi.nlm.nih.gov/sra/?term=ERR1040181).
+
+We are not exactly sure what the minimum limit is for accurate classification at the moment, we're trying to figure out what the minimum sequence depth is. However, our preliminary analysis suggests that we need about 5MB of sequence to get an accurate prediction. Below that, we're just not sure. So at the moment we filter sequences to only those that have 5,000,000 bp of sequence before we can create a prediction.
+
+# Zero restrictions
+
+Tjere are several SRA datasets that have zero reads, zero bases, and zero data. We have several of those and we've denoted them as "NO DATA". There are a couple of explanations for these: either they have been deleted from the SRA for some reason (and probably replaced with something else), or they are protected by dbGAP or something similar. We're working on a solution for that.
+
+
 
 
