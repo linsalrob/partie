@@ -74,6 +74,10 @@ There is a minimum limit to how much data we need before we can accurately class
 
 We are not exactly sure what the minimum limit is for accurate classification at the moment, we're trying to figure out what the minimum sequence depth is. However, our preliminary analysis suggests that we need about 5MB of sequence to get an accurate prediction. Below that, we're just not sure. So at the moment we filter sequences to only those that have 5,000,000 bp of sequence before we can create a prediction.
 
+However, this may be a bit low and we should perhaps increase this, because [many, many datasets](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA348753) in the 5MB range are [reconstructed genomes](https://www.ncbi.nlm.nih.gov/sra/?term=SRR5326851) rather than metagenomes. But there are also [plenty of real metagenomes](https://www.ncbi.nlm.nih.gov/sra/?term=SRR2090082) that are that size. 
+
+In a future release, we may train partie to try and recognize reconstructed genomes from metagenomes.
+
 # Zero restrictions
 
 Tjere are several SRA datasets that have zero reads, zero bases, and zero data. We have several of those and we've denoted them as "NO DATA". There are a couple of explanations for these: either they have been deleted from the SRA for some reason (and probably replaced with something else), or they are protected by dbGAP or something similar. We're working on a solution for that.
