@@ -78,6 +78,10 @@ However, this may be a bit low and we should perhaps increase this, because [man
 
 In a future release, we may train partie to try and recognize reconstructed genomes from metagenomes.
 
+# MAGS
+
+We have specifically labeled the 7,889 [metagenome assembled geomes](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA348753) from Phil Hugenholtz's study as MAGS. We will also add this label to other metagenome assembled genomes we identify.
+
 # Zero restrictions
 
 Tjere are several SRA datasets that have zero reads, zero bases, and zero data. We have several of those and we've denoted them as "NO DATA". There are a couple of explanations for these: either they have been deleted from the SRA for some reason (and probably replaced with something else), or they are protected by dbGAP or something similar. We're working on a solution for that.
