@@ -16,7 +16,7 @@ We typically classify the data sets into three groups:
 
 We have released two files:
  * [SRA_Metagenome_Types.tsv](SRA_Metagenome_Types.tsv) is a tab separated file with two columns, the SRA run ID and the classification of the sequence.
- * [SRA_Partie_Data.tsv](SRA_Partie_Data.tsv) is a tab separated file with the Partie data described above in case you want to generate your own classification. The columns of this data are ID, percent unique k-mer, percent 16S rRNA, percent phage, percent prokaryote, and partie annotation. 
+ * [SRA_PARTIE_DATA.txt](SRA_PARTIE_DATA.txt) is a tab separated file with the Partie data described above in case you want to generate your own classification. The columns of this data are ID, percent unique k-mer, percent 16S rRNA, percent phage, percent prokaryote, and partie annotation. 
 
 
 The file [SRA_Update_Time](SRA_Update_Time) shows the time of the last update of the SRA.
