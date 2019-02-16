@@ -12,6 +12,7 @@ You will need to have the following software installed before you can run PARTIE
 - jellyfish [Available from github](https://github.com/gmarcais/Jellyfish)
 - seqtk [Available from github](https://github.com/lh3/seqtk)
 - the NCBI SRA Toolkit. You should [download the prebuilt binaries](https://github.com/ncbi/sra-tools/wiki/Downloads) or check this [NCBI page for the latest versions](https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/)
+- [zotkill](http://moo.nac.uci.edu/~hjm/zotkill.pl) is used to write to a single file. This is an elegant file locking approach to combine multiple outputs into one file, e.g. while running on a cluster
 
 Follow the installation instructions for each of those libraries.
 

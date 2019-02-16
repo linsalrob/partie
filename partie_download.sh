@@ -64,7 +64,9 @@ cd partie
 # how many jobs do we have?
 COUNT=$(wc -l SRA-metagenomes-ToDownload.txt | awk '{print $1}')
 
-echo -e "SRA=\$(head -n \$SGE_TASK_ID SRA-metagenomes-ToDownload.txt | tail -n 1);\nperl \$HOME/partie/partie.pl -noheader \${SRA}.sra;" > partie.sh
+# Note that I added zotkill.pl here to reduce a problem where sge was overwriting itself.
+# See http://moo.nac.uci.edu/~hjm/zotkill.pl for more information about zotkill.pl
+echo -e "SRA=\$(head -n \$SGE_TASK_ID SRA-metagenomes-ToDownload.txt | tail -n 1);\nperl \$HOME/partie/partie.pl -noheader \${SRA}.sra | $HOME/bin/zotkill.pl partie.out;" > partie.sh
 # and submit a few jobs to the queue to test
 # NOTE:
 # Do not make the outputs a directory!!
@@ -81,7 +83,7 @@ else
 	# submit via ssh
 	WD=$PWD
 	echo "Running the partie command on anthill"
-	ssh anthill "cd $WD; qsub -V -cwd -t 1-$COUNT:1  -o sge_out -e sge_err ./partie.sh"
+	ssh anthill "unset func; cd $WD; qsub -V -cwd -t 1-$COUNT:1  -o sge_out -e sge_err ./partie.sh"
 fi
 
 # get the sizes of the metagenomes
