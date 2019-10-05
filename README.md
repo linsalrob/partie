@@ -1,3 +1,7 @@
+[![DOI](https://www.zenodo.org/badge/68630739.svg)](https://www.zenodo.org/badge/latestdoi/68630739)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 # PARTIE
 PARTIE is a program to partition sequence read archive (SRA) metagenomics data into amplicon and shotgun data sets. The user-supplied annotations of the data sets can not be trusted, and so PARTIE allows automatic separation of the data.
 
