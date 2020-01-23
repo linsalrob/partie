@@ -178,18 +178,23 @@ if($suffix =~ m/\.sra/){
 #--CHECK DATABASES
 my $out = `$bt2-inspect -s $dir/db/16SMicrobial 2>&1 1> /dev/null`;
 if($out){
-	print "Error: 16S database corrupted\n";
-	print $out;
+	print STDERR "Error: 16S database corrupted\n";
+	print STDERR "Runing the command $bt2-inspect -s $dir/db/16SMicrobial\n";
+	print STDERR $out;
 	exit();
 }
 my $out = `$bt2-inspect -s $dir/db/phages 2>&1 1> /dev/null`;
 if($out){
-	print "Error: phages database corrupted\n";
+	print STDERR "Error: phages database corrupted\n";
+	print STDERR "Running the command: $bt2-inspect -s $dir/db/phages\n";
+	print STDERR $out;
 	exit();
 }
 my $out = `$bt2-inspect -s $dir/db/prokaryotes 2>&1 1> /dev/null`;
 if($out){
-	print "Error: prokaryotes database corrupted\n";
+	print STDERR "Error: prokaryotes database corrupted\n";
+	print STDERR "Running the command: $bt2-inspect -s $dir/db/prokaryotes\n";
+	print STDERR $out;
 	exit();
 }
 
