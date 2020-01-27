@@ -198,6 +198,16 @@ if($out){
 	exit();
 }
 
+my $out = `$bt2-inspect -s $dir/db/humanGenome 2>&1 1> /dev/null`;
+if($out){
+	print STDERR "Error: humanGenome database corrupted\n";
+	print STDERR "Running the command: $bt2-inspect -s $dir/db/humanGenome\n";
+	print STDERR $out;
+	exit();
+}
+
+
+
 #--COUNT HITS TO 16S
 my $percent_16S = 0;
 my $outputfile = "/dev/null";
@@ -221,11 +231,22 @@ if($out =~ m/\((\S+)%\)/){
 	$percent_prokaryote = 100-$1;
 }
 
+#---COUNT HITS TO HUMAN
+my $percent_human = 0;
+if ($keep) {$outputfile = "human.hits.txt"}
+my $out = `$bt2 -f -k 1 -x $dir/db/humanGenome $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
+if($out =~ m/\((\S+)%\)/){
+	$percent_prokaryote = 100-$1;
+}
+
+
+
 if ($keep && $verbose) {
 	print STDERR "NOTE: We have only kept the alignment mapping summary. If you want to keep the alignments, you should use these three commands:\n";
 	print STDERR "$bt2 -f -k 1 -x $dir/db/16SMicrobial $filename.$num_reads.fna > microbial.sam\n";
 	print STDERR "$bt2 -f -k 1 -x $dir/db/phages $filename.$num_reads.fna > phages.sam\n";
 	print STDERR "$bt2 -f -k 1 -x $dir/db/prokaryotes $filename.$num_reads.fna > prokaryotes.sam\n";
+	print STDERR "$bt2 -f -k 1 -x $dir/db/humanGenome $filename.$num_reads.fna > humanGenome.sam\n";
 }
 
 
@@ -256,7 +277,7 @@ if (!$keep) {
 }
 
 #---OUPUT
-if (!$noheader) {print "sample_name\tpercent_unique_kmer\tpercent_16S\tpercent_phage\tpercent_Prokaryote\n"}
+if (!$noheader) {print "sample_name\tpercent_unique_kmer\tpercent_16S\tpercent_phage\tpercent_Prokaryote\tpercent_Human\n"}
 print $ARGV[0];
 print "\t";
 if($total){
@@ -264,7 +285,7 @@ if($total){
 }else{
       	print "0";
 }
-print "\t", join("\t", $percent_16S, $percent_phage, $percent_prokaryote), "\n";
+print "\t", join("\t", $percent_16S, $percent_phage, $percent_prokaryote, $percent_human), "\n";
 
 
 sub usage {
