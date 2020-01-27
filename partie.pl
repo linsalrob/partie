@@ -215,6 +215,7 @@ if ($keep) {$outputfile = "$$.microbial.hits.txt"}
 my $out = `$bt2 -f -k 1 -x $dir/db/16SMicrobial $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_16S = 100-$1;
+	if ($verbose) {print STDERR "For  $filename.$num_reads.fna 16S: $percent_16S from 100-$1\n"}
 }
 #---COUNT HITS TO PHAGES
 my $percent_phage = 0;
@@ -222,6 +223,7 @@ if ($keep) {$outputfile = "$$.phage.hits.txt"}
 my $out = `$bt2 -f -k 1 -x $dir/db/phages $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_phage = 100-$1;
+	if ($verbose) {print STDERR "For  $filename.$num_reads.fna Phage: $percent_phage from 100-$1\n"}
 }
 #---COUNT HITS TO PROKARYOTES
 my $percent_prokaryote = 0;
@@ -229,6 +231,7 @@ if ($keep) {$outputfile = "$$.prokayote.hits.txt"}
 my $out = `$bt2 -f -k 1 -x $dir/db/prokaryotes $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_prokaryote = 100-$1;
+	if ($verbose) {print STDERR "For  $filename.$num_reads.fna Prokaryote: $percent_prokaryote from 100-$1\n"}
 }
 
 #---COUNT HITS TO HUMAN
@@ -236,7 +239,8 @@ my $percent_human = 0;
 if ($keep) {$outputfile = "$$.human.hits.txt"}
 my $out = `$bt2 -f -k 1 -x $dir/db/humanGenome $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
-	$percent_prokaryote = 100-$1;
+	$percent_human = 100-$1;
+	if ($verbose) {print STDERR "For  $filename.$num_reads.fna Human: $percent_human from 100-$1\n"}
 }
 
 
@@ -248,6 +252,8 @@ if ($keep && $verbose) {
 	print STDERR "$bt2 -f -k 1 -x $dir/db/phages $filename.$num_reads.fna > phages.sam\n";
 	print STDERR "$bt2 -f -k 1 -x $dir/db/prokaryotes $filename.$num_reads.fna > prokaryotes.sam\n";
 	print STDERR "$bt2 -f -k 1 -x $dir/db/humanGenome $filename.$num_reads.fna > humanGenome.sam\n";
+} elsif ($keep) {
+	print STDERR "Job: $$ Running on $filename.$num_reads.fna\n";
 }
 
 
