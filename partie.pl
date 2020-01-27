@@ -211,21 +211,21 @@ if($out){
 #--COUNT HITS TO 16S
 my $percent_16S = 0;
 my $outputfile = "/dev/null";
-if ($keep) {$outputfile = "microbial.hits.txt"}
+if ($keep) {$outputfile = "$$.microbial.hits.txt"}
 my $out = `$bt2 -f -k 1 -x $dir/db/16SMicrobial $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_16S = 100-$1;
 }
 #---COUNT HITS TO PHAGES
 my $percent_phage = 0;
-if ($keep) {$outputfile = "phage.hits.txt"}
+if ($keep) {$outputfile = "$$.phage.hits.txt"}
 my $out = `$bt2 -f -k 1 -x $dir/db/phages $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_phage = 100-$1;
 }
 #---COUNT HITS TO PROKARYOTES
 my $percent_prokaryote = 0;
-if ($keep) {$outputfile = "prokayote.hits.txt"}
+if ($keep) {$outputfile = "$$.prokayote.hits.txt"}
 my $out = `$bt2 -f -k 1 -x $dir/db/prokaryotes $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_prokaryote = 100-$1;
@@ -233,7 +233,7 @@ if($out =~ m/\((\S+)%\)/){
 
 #---COUNT HITS TO HUMAN
 my $percent_human = 0;
-if ($keep) {$outputfile = "human.hits.txt"}
+if ($keep) {$outputfile = "$$.human.hits.txt"}
 my $out = `$bt2 -f -k 1 -x $dir/db/humanGenome $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_prokaryote = 100-$1;
@@ -242,6 +242,7 @@ if($out =~ m/\((\S+)%\)/){
 
 
 if ($keep && $verbose) {
+	print STDERR "Job: $$ Running on $filename.$num_reads.fna\n";
 	print STDERR "NOTE: We have only kept the alignment mapping summary. If you want to keep the alignments, you should use these three commands:\n";
 	print STDERR "$bt2 -f -k 1 -x $dir/db/16SMicrobial $filename.$num_reads.fna > microbial.sam\n";
 	print STDERR "$bt2 -f -k 1 -x $dir/db/phages $filename.$num_reads.fna > phages.sam\n";
