@@ -48,6 +48,8 @@ Or you can download each of the three files separately (you don't need to do thi
 - [16S](https://edwards.sdsu.edu/PARTIE/16SMicrobial.bowtie2indices.bz2) (Note that this file is 14M)
 - [Phage](http://edwards.sdsu.edu/PARTIE/phage.bowtie2indices.bz2) (Note that this file is 225M)
 - [Prokaryotes](http://edwards.sdsu.edu/PARTIE/prokaryotes.bowtie2indices.bz2) (Note that this file is 7.3G)
+- [Human](http://edwards.sdsu.edu/PARTIE/humanGenome.bowtie2indices.bz2) (Note that this file is 3.8G)
+
 
 Once you have downloaded them you can extract them with:
 
@@ -55,6 +57,7 @@ Once you have downloaded them you can extract them with:
 tar xf 16SMicrobial.bowtie2indices.bz2
 tar xf phage.bowtie2indices.bz2
 tar xf prokaryotes.bowtie2indices.bz2
+tar xf human.bowtie2indices.bz2
 ```
 
 
@@ -69,12 +72,13 @@ To install this way using make
 make databases
 ```
 
-Or you can download them from [edwards.sdsu.edu](http://edwards.sdsu.edu/PARTIE/partiedb.tar.bz2) and then build them with bowtie2-build:
+Or you can download them from [edwards.sdsu.edu](http://edwards.sdsu.edu/PARTIE/partiedb.tar.bz2) (Note that this file is 2.3G) and then build them with bowtie2-build:
 
 ```
 bowtie2-build db/16SMicrobial.fna db/16SMicrobial
 bowtie2-build db/phages.fna db/phages
 bowtie2-build db/prokaryotes.fna db/prokaryotes
+bowtie2-build db/hg38.fa db/humanGenome
 ```
 
 ## Using PARTIE
