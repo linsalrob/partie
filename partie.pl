@@ -178,49 +178,82 @@ if($suffix =~ m/\.sra/){
 #--CHECK DATABASES
 my $out = `$bt2-inspect -s $dir/db/16SMicrobial 2>&1 1> /dev/null`;
 if($out){
-	print "Error: 16S database corrupted\n";
-	print $out;
+	print STDERR "Error: 16S database corrupted\n";
+	print STDERR "Runing the command $bt2-inspect -s $dir/db/16SMicrobial\n";
+	print STDERR $out;
 	exit();
 }
 my $out = `$bt2-inspect -s $dir/db/phages 2>&1 1> /dev/null`;
 if($out){
-	print "Error: phages database corrupted\n";
+	print STDERR "Error: phages database corrupted\n";
+	print STDERR "Running the command: $bt2-inspect -s $dir/db/phages\n";
+	print STDERR $out;
 	exit();
 }
 my $out = `$bt2-inspect -s $dir/db/prokaryotes 2>&1 1> /dev/null`;
 if($out){
-	print "Error: prokaryotes database corrupted\n";
+	print STDERR "Error: prokaryotes database corrupted\n";
+	print STDERR "Running the command: $bt2-inspect -s $dir/db/prokaryotes\n";
+	print STDERR $out;
 	exit();
 }
+
+my $out = `$bt2-inspect -s $dir/db/humanGenome 2>&1 1> /dev/null`;
+if($out){
+	print STDERR "Error: humanGenome database corrupted\n";
+	print STDERR "Running the command: $bt2-inspect -s $dir/db/humanGenome\n";
+	print STDERR $out;
+	exit();
+}
+
+
 
 #--COUNT HITS TO 16S
 my $percent_16S = 0;
 my $outputfile = "/dev/null";
-if ($keep) {$outputfile = "microbial.hits.txt"}
+if ($keep) {$outputfile = "$$.microbial.hits.txt"}
 my $out = `$bt2 -f -k 1 -x $dir/db/16SMicrobial $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_16S = 100-$1;
+	if ($verbose) {print STDERR "For  $filename.$num_reads.fna 16S: $percent_16S from 100-$1\n"}
 }
 #---COUNT HITS TO PHAGES
 my $percent_phage = 0;
-if ($keep) {$outputfile = "phage.hits.txt"}
+if ($keep) {$outputfile = "$$.phage.hits.txt"}
 my $out = `$bt2 -f -k 1 -x $dir/db/phages $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_phage = 100-$1;
+	if ($verbose) {print STDERR "For  $filename.$num_reads.fna Phage: $percent_phage from 100-$1\n"}
 }
 #---COUNT HITS TO PROKARYOTES
 my $percent_prokaryote = 0;
-if ($keep) {$outputfile = "prokayote.hits.txt"}
+if ($keep) {$outputfile = "$$.prokayote.hits.txt"}
 my $out = `$bt2 -f -k 1 -x $dir/db/prokaryotes $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
 if($out =~ m/\((\S+)%\)/){
 	$percent_prokaryote = 100-$1;
+	if ($verbose) {print STDERR "For  $filename.$num_reads.fna Prokaryote: $percent_prokaryote from 100-$1\n"}
 }
 
+#---COUNT HITS TO HUMAN
+my $percent_human = 0;
+if ($keep) {$outputfile = "$$.human.hits.txt"}
+my $out = `$bt2 -f -k 1 -x $dir/db/humanGenome $filename.$num_reads.fna 2>&1 1> $outputfile | grep 'aligned 0 time'`;
+if($out =~ m/\((\S+)%\)/){
+	$percent_human = 100-$1;
+	if ($verbose) {print STDERR "For  $filename.$num_reads.fna Human: $percent_human from 100-$1\n"}
+}
+
+
+
 if ($keep && $verbose) {
+	print STDERR "Job: $$ Running on $filename.$num_reads.fna\n";
 	print STDERR "NOTE: We have only kept the alignment mapping summary. If you want to keep the alignments, you should use these three commands:\n";
 	print STDERR "$bt2 -f -k 1 -x $dir/db/16SMicrobial $filename.$num_reads.fna > microbial.sam\n";
 	print STDERR "$bt2 -f -k 1 -x $dir/db/phages $filename.$num_reads.fna > phages.sam\n";
 	print STDERR "$bt2 -f -k 1 -x $dir/db/prokaryotes $filename.$num_reads.fna > prokaryotes.sam\n";
+	print STDERR "$bt2 -f -k 1 -x $dir/db/humanGenome $filename.$num_reads.fna > humanGenome.sam\n";
+} elsif ($keep) {
+	print STDERR "Job: $$ Running on $filename.$num_reads.fna\n";
 }
 
 
@@ -251,7 +284,7 @@ if (!$keep) {
 }
 
 #---OUPUT
-if (!$noheader) {print "sample_name\tpercent_unique_kmer\tpercent_16S\tpercent_phage\tpercent_Prokaryote\n"}
+if (!$noheader) {print "sample_name\tpercent_unique_kmer\tpercent_16S\tpercent_phage\tpercent_Prokaryote\tpercent_Human\n"}
 print $ARGV[0];
 print "\t";
 if($total){
@@ -259,7 +292,7 @@ if($total){
 }else{
       	print "0";
 }
-print "\t", join("\t", $percent_16S, $percent_phage, $percent_prokaryote), "\n";
+print "\t", join("\t", $percent_16S, $percent_phage, $percent_prokaryote, $percent_human), "\n";
 
 
 sub usage {

@@ -64,7 +64,9 @@ cd partie
 # how many jobs do we have?
 COUNT=$(wc -l SRA-metagenomes-ToDownload.txt | awk '{print $1}')
 
-echo -e "SRA=\$(head -n \$SGE_TASK_ID SRA-metagenomes-ToDownload.txt | tail -n 1);\nperl \$HOME/partie/partie.pl -noheader \${SRA}.sra;" > partie.sh
+# Note that I added zotkill.pl here to reduce a problem where sge was overwriting itself.
+# See http://moo.nac.uci.edu/~hjm/zotkill.pl for more information about zotkill.pl
+echo -e "SRA=\$(head -n \$SGE_TASK_ID SRA-metagenomes-ToDownload.txt | tail -n 1);\nperl \$HOME/partie/partie.pl -noheader \${SRA}.sra | $HOME/bin/zotkill.pl partie.out;" > partie.sh
 # and submit a few jobs to the queue to test
 # NOTE:
 # Do not make the outputs a directory!!
@@ -75,13 +77,22 @@ unset module
 
 if [ $HOST == "anthill" ]; then 
 	# we can submit directly
-	echo "submitting the partie job"
-	qsub -V -cwd -t 1-$COUNT:1  -o sge_out -e sge_err ./partie.sh
+	BEGIN=1; END=$((BEGIN+74999))
+	while [[ $END -lt $COUNT ]]; do 
+		echo $BEGIN $END; 
+		qsub -V -cwd -t $BEGIN-$END:1  -o sge_out -e sge_err ./partie.sh
+		echo "Submitting a partie job for sequences $BEGIN to $END"
+		BEGIN=$((END+1)); 
+		END=$((BEGIN+74999)); 
+	done; 
+	echo "Submitting a partie job for sequences $BEGIN to $END"
+	qsub -V -cwd -t $BEGIN-$END:1  -o sge_out -e sge_err ./partie.sh
+
 else 
 	# submit via ssh
 	WD=$PWD
 	echo "Running the partie command on anthill"
-	ssh anthill "cd $WD; qsub -V -cwd -t 1-$COUNT:1  -o sge_out -e sge_err ./partie.sh"
+	ssh anthill "unset func; cd $WD; qsub -V -cwd -t 1-$COUNT:1  -o sge_out -e sge_err ./partie.sh"
 fi
 
 # get the sizes of the metagenomes
@@ -90,7 +101,7 @@ while [ $IDX -lt $COUNT ]; do
 	IDX=$((IDX+250));
 	echo "Getting the sizes of the metagenomes upto number $IDX of $COUNT"; 
 	head -n $IDX SRA-metagenomes-ToDownload.txt | tail -n 250 > temp;
-	epost -db sra -input temp -format acc | esummary -format runinfo -mode xml | xtract -pattern Row -element Run,bases,spots,spots_with_mates,avgLength,size_MB >> SRA_Metagenome_Sizes.tsv;
+	epost -db sra -input temp -format acc | esummary -format runinfo -mode xml | xtract -pattern Row -element Run,bases,spots,spots_with_mates,avgLength,size_MB,ReleaseDate >> SRA_Metagenome_Sizes.tsv;
 done
 rm -f temp
 

@@ -1,3 +1,7 @@
+[![DOI](https://www.zenodo.org/badge/68630739.svg)](https://www.zenodo.org/badge/latestdoi/68630739)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 # PARTIE
 PARTIE is a program to partition sequence read archive (SRA) metagenomics data into amplicon and shotgun data sets. The user-supplied annotations of the data sets can not be trusted, and so PARTIE allows automatic separation of the data.
 
@@ -87,5 +91,7 @@ We have specifically labeled the 7,889 [metagenome assembled geomes](https://www
 Tjere are several SRA datasets that have zero reads, zero bases, and zero data. We have several of those and we've denoted them as "NO DATA". There are a couple of explanations for these: either they have been deleted from the SRA for some reason (and probably replaced with something else), or they are protected by dbGAP or something similar. We're working on a solution for that.
 
 
+# Databases
 
+We have included the human database in PARTIE now. This is a pre-built bowtie2 index for [hg38.fa.gz](https://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/hg38.fa.gz) (md5sum: 1c9dcaddfa41027f17cd8f7a82c7293b) from UCSC. That is the human genome we use to compare everything to. We were undercounting the number of human matches in the database for a number of samples, and these are being (27 Jan 20) recounted, and we will update those numbers when completed.
 

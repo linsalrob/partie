@@ -12,6 +12,7 @@ You will need to have the following software installed before you can run PARTIE
 - jellyfish [Available from github](https://github.com/gmarcais/Jellyfish)
 - seqtk [Available from github](https://github.com/lh3/seqtk)
 - the NCBI SRA Toolkit. You should [download the prebuilt binaries](https://github.com/ncbi/sra-tools/wiki/Downloads) or check this [NCBI page for the latest versions](https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/)
+- [zotkill](http://moo.nac.uci.edu/~hjm/zotkill.pl) is used to write to a single file. This is an elegant file locking approach to combine multiple outputs into one file, e.g. while running on a cluster
 
 Follow the installation instructions for each of those libraries.
 
@@ -47,6 +48,8 @@ Or you can download each of the three files separately (you don't need to do thi
 - [16S](https://edwards.sdsu.edu/PARTIE/16SMicrobial.bowtie2indices.bz2) (Note that this file is 14M)
 - [Phage](http://edwards.sdsu.edu/PARTIE/phage.bowtie2indices.bz2) (Note that this file is 225M)
 - [Prokaryotes](http://edwards.sdsu.edu/PARTIE/prokaryotes.bowtie2indices.bz2) (Note that this file is 7.3G)
+- [Human](http://edwards.sdsu.edu/PARTIE/humanGenome.bowtie2indices.bz2) (Note that this file is 3.8G)
+
 
 Once you have downloaded them you can extract them with:
 
@@ -54,6 +57,7 @@ Once you have downloaded them you can extract them with:
 tar xf 16SMicrobial.bowtie2indices.bz2
 tar xf phage.bowtie2indices.bz2
 tar xf prokaryotes.bowtie2indices.bz2
+tar xf human.bowtie2indices.bz2
 ```
 
 
@@ -68,12 +72,13 @@ To install this way using make
 make databases
 ```
 
-Or you can download them from [edwards.sdsu.edu](http://edwards.sdsu.edu/PARTIE/partiedb.tar.bz2) and then build them with bowtie2-build:
+Or you can download them from [edwards.sdsu.edu](http://edwards.sdsu.edu/PARTIE/partiedb.tar.bz2) (Note that this file is 2.3G) and then build them with bowtie2-build:
 
 ```
 bowtie2-build db/16SMicrobial.fna db/16SMicrobial
 bowtie2-build db/phages.fna db/phages
 bowtie2-build db/prokaryotes.fna db/prokaryotes
+bowtie2-build db/hg38.fa db/humanGenome
 ```
 
 ## Using PARTIE

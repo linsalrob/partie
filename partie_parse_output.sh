@@ -19,7 +19,7 @@ DATE=`date +%b_%Y`
 cd $DATE/partie
 
 # clean up the output. This means that we delete a few that we need to add next time
-perl -ne 'next unless (/^[DSE]RR\d+.sra\t[\d\.]+\t[\d\.]+\t[\d\.]+\t[\d\.]+$/); @a=split /\t/; next unless ($#a == 4); print' sge_out > output_clean
+perl -ne 'next unless (/^[DSE]RR\d+.sra\t[\d\.]+\t[\d\.]+\t[\d\.]+\t[\d\.]+$/); @a=split /\t/; next if ($s{$a[0]}); $s{$a[0]}=1; next unless ($#a == 4); print' partie.out > output_clean
 
 # cat the header and the files in one go:
 head -n 1 ~/partie/SRA_PARTIE_DATA.txt | sed -e 's/\s\+PARTIE_Annotation//'  | cat - output_clean | grep -vP '\t0\t0\t0\t0' > partie_${DATE}.txt
