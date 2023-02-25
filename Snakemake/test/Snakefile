@@ -1,0 +1,56 @@
+
+
+import os
+import sys
+
+
+
+checkpoint download:
+    output:
+        os.path.join("sra", "{sraid}.sra")
+    shell:
+        "touch {output}"
+
+
+def read_file(fname):
+    samps = []
+    with open(fname, 'r') as f:
+        for l in f:
+            samps.append(l.strip())
+    with checkpoints.download.get(expand(sraid=samps)).output[0].open() as f:
+        return sraid
+
+def read_file(fname):
+
+
+rule create_tmpf:
+    input:
+        "SRA-metagenomes-ToDownload.txt"
+    output:
+        "test-file.txt"
+    shell:
+        """
+        cp {input} {output}
+        """
+
+def create_sra_files:
+    input:
+        read_file("test-file.txt")
+    output:
+        os.path.join("sra", "{sraid}.sra")
+        bn
+
+
+rule create_sra_2:
+    input:
+        os.path.join("sra", "{sraid}.sra")
+    output:
+        os.path.join("sra2", "{sraid}.txt")
+    shell:
+        """
+        touch {output}
+        """
+
+rule done:
+    input:
+

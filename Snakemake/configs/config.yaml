@@ -1,0 +1,7 @@
+---
+Output:
+# By default we output everything in a folder with todays date,  but you can 
+# override that and use any folder name you like, by setting output_folder to something
+# other than None
+         output_folder: None
+

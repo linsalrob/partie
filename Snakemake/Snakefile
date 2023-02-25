@@ -1,0 +1,44 @@
+########################################################################
+##                                                                    ##
+## Snakemake                                                          ##
+##                                                                    ##
+## This snakefile runs all the partie code and saves fasta files      ##
+##                                                                    ##
+## (c) Rob Edwards, Jan 2021                                          ##
+##                                                                    ##
+########################################################################
+
+import os
+import sys
+import socket
+from datetime import date
+
+
+
+if not config:
+    sys.stderr.write("FATAL: Please define a config file using the --configfile command line option.\n")
+    sys.stderr.write("examples are provided in the Git repo\n")
+    sys.exit()
+
+# set the output directory
+outdir = date.today().strftime("%Y%m%d")
+
+if config['Output']['output_folder'] and config['Output']['output_folder'] != "None":
+    outdir = config['Output']['output_folder']
+
+os.makedirs(outdir, exist_ok=True)
+
+
+
+
+
+include: "rules/00_setup.smk"
+include: "rules/01_download_sqlite.smk"
+include: "rules/02_sql.smk"
+
+rule all:
+    input:
+        os.path.join(outdir, "timestamp.txt"),
+        os.path.join(outdir, "SRA-metagenomes.txt"),
+        os.path.join(outdir, "SRA-metagenomes-ToDownload.txt")
+
